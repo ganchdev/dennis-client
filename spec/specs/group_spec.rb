@@ -81,7 +81,7 @@ module Dennis
     describe '.create' do
       it 'returns the newly created group' do
         VCR.use_cassette('group-create') do
-          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples', nameservers: %w[laura.example.com simon.example.com])
+          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples', nameservers: [{id: 1}, {id: 5}])
           expect(group).to be_a Group
           expect(group).to have_attributes name: 'Apple Group', external_reference: 'apples'
           expect(group.nameservers).to be_a Array

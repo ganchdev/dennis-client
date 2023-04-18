@@ -5,7 +5,7 @@ http_interactions:
     uri: https://dennis.dev.adam.ac/api/v1/groups
     body:
       encoding: UTF-8
-      string: '{"properties":{"name":"Apple Group","external_reference":"apples", "nameservers": ["laura.example.com", "simon.example.com]}}'
+      string: '{"properties":{"name":"Apple Group","external_reference":"apples","nameservers":[{"id":5},{"id":1}]}}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3

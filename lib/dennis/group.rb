@@ -2,6 +2,7 @@
 
 require 'dennis/nameserver'
 require 'dennis/validation_error'
+require 'dennis/nameserver_not_found_error'
 
 module Dennis
   class Group
@@ -34,6 +35,7 @@ module Dennis
         }
         Group.new(client, request.perform.hash['group'])
       rescue ApiaClient::RequestError => e
+        raise NameserverNotFoundError if e.code == 'nameserver_not_found'
         raise ValidationError, e.detail['errors'] if e.code == 'validation_error'
 
         raise
