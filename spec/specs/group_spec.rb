@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'pry'
 
 module Dennis
 
@@ -80,7 +81,7 @@ module Dennis
     describe '.create' do
       it 'returns the newly created group' do
         VCR.use_cassette('group-create') do
-          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples')
+          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples', nameservers: %w[laura.example.com simon.example.com])
           expect(group).to be_a Group
           expect(group).to have_attributes name: 'Apple Group', external_reference: 'apples'
           expect(group.nameservers).to be_a Array
