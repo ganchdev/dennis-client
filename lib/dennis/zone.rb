@@ -106,6 +106,18 @@ module Dennis
       @hash['nameservers_verified']
     end
 
+    def txt_record_verified_at
+      parse_time(@hash['txt_record_verified_at'])
+    end
+
+    def txt_record_checked_at
+      parse_time(@hash['txt_record_checked_at'])
+    end
+
+    def txt_record_verified?
+      parse_time(@hash['txt_record_verified'])
+    end
+
     def verified?
       @hash['verified']
     end
@@ -187,6 +199,17 @@ module Dennis
       req = @client.api.create_request(:delete, 'zones/:zone')
       req.arguments['zone'] = { id: id }
       req.perform
+      true
+    end
+
+    def verify
+      req = @client.api.create_request(:post, 'zones/:zone/verify')
+      req.arguments['zone'] = { id: id }
+      @hash.req.perform.hash['zone']
+      verified?
+    rescue ApiaClient::RequestError => e
+      raise unless e.code == 'zone_already_verified'
+
       true
     end
 
