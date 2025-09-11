@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://dennis.localhost/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"properties":{"name":"Fig Group","external_reference":"figs","nameservers":[{"name":"unknown"}]}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer test
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Access-Control-Allow-Methods:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '141'
+      Content-Type:
+      - application/json
+      Server:
+      - Caddy
+      Server-Timing:
+      - sql.active_record;dur=1.54, instantiation.active_record;dur=0.05
+      X-Api-Schema:
+      - json-error
+      X-Request-Id:
+      - 2ef8380b-5be6-4b8c-98d1-5c60a1c4e657
+      X-Runtime:
+      - '0.006678'
+      Date:
+      - Thu, 11 Sep 2025 11:17:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"nameserver_not_found","description":"No nameserver
+        could be found using the given arguments","detail":{"query":"unknown"}}}'
+  recorded_at: Thu, 11 Sep 2025 11:17:26 GMT
+recorded_with: VCR 6.1.0

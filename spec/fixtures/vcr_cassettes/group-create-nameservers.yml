@@ -1,0 +1,51 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://dennis.localhost/api/v1/groups
+      body:
+        encoding: UTF-8
+        string: '{"properties":{"name":"Pear Group","external_reference":"pears","nameservers":[{"id":1}]}}'
+      headers:
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+        Authorization:
+          - Bearer test
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 201
+        message: Created
+      headers:
+        Access-Control-Allow-Methods:
+          - "*"
+        Access-Control-Allow-Origin:
+          - "*"
+        Cache-Control:
+          - max-age=0, private, must-revalidate
+        Content-Length:
+          - "243"
+        Content-Type:
+          - application/json
+        Etag:
+          - W/"dfd9eae2b2e7f8d92272f7d25a0fd01e"
+        Server:
+          - Caddy
+        Server-Timing:
+          - sql.active_record;dur=5.69, instantiation.active_record;dur=0.04
+        X-Request-Id:
+          - 702d9232-5973-4a80-a5e8-e4362a6fe79b
+        X-Runtime:
+          - "0.012972"
+        Date:
+          - Thu, 11 Sep 2025 10:47:54 GMT
+      body:
+        encoding: UTF-8
+        string: '{"group":{"id":6,"name":"Pear Group","external_reference":"pears","created_at":1757587674,"updated_at":1757587674,"nameservers":[{"id":1,"name":"simon.example.com","server":1,"available":true,"created_at":1727871151,"updated_at":1727871151}]}}'
+    recorded_at: Thu, 11 Sep 2025 10:47:54 GMT
+recorded_with: VCR 6.1.0

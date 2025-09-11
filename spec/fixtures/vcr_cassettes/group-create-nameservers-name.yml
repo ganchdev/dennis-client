@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://dennis.localhost/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"properties":{"name":"Peach Group","external_reference":"peaches","nameservers":[{"name":"dave.example.com"}]}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer test
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Access-Control-Allow-Methods:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Length:
+      - '245'
+      Content-Type:
+      - application/json
+      Etag:
+      - W/"1dbd399503ff84e41b1ea2983dc4f546"
+      Server:
+      - Caddy
+      Server-Timing:
+      - sql.active_record;dur=5.97, instantiation.active_record;dur=0.04
+      X-Request-Id:
+      - 79150f53-1f46-4be0-83c6-0d8f20fe4c00
+      X-Runtime:
+      - '0.016797'
+      Date:
+      - Thu, 11 Sep 2025 11:17:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"group":{"id":7,"name":"Peach Group","external_reference":"peaches","created_at":1757589446,"updated_at":1757589446,"nameservers":[{"id":3,"name":"dave.example.com","server":1,"available":true,"created_at":1727871151,"updated_at":1727871151}]}}'
+  recorded_at: Thu, 11 Sep 2025 11:17:26 GMT
+recorded_with: VCR 6.1.0

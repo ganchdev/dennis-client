@@ -78,33 +78,128 @@ module Dennis
     end
 
     describe '.create' do
-      it 'returns the newly created group' do
-        VCR.use_cassette('group-create') do
-          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples')
-          expect(group).to be_a Group
-          expect(group).to have_attributes name: 'Apple Group', external_reference: 'apples'
-          expect(group.nameservers).to be_a Array
+      context 'without nameservers' do
+        it 'returns the newly created group' do
+          VCR.use_cassette('group-create') do
+            group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples')
+            expect(group).to be_a Group
+            expect(group).to have_attributes name: 'Apple Group', external_reference: 'apples'
+            expect(group.nameservers).to be_a Array
+          end
+        end
+
+        it 'has nameservers after creation' do
+          VCR.use_cassette('group-create') do
+            group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples')
+            expect(group).to be_a Group
+            expect(group.nameservers).to be_a Array
+            expect(group.nameservers.size).to eq 2
+            expect(group.nameservers).to all be_a Nameserver
+          end
+        end
+
+        it 'raises a validation error if there is an issue' do
+          VCR.use_cassette('group-create-validation-error') do
+            expect do
+              described_class.create(@client, name: '')
+            end.to raise_error ValidationError do |e|
+              expect(e.errors).to match array_including(
+                having_attributes(attribute: 'name', type: 'blank')
+              )
+            end
+          end
         end
       end
 
-      it 'has nameservers after creation' do
-        VCR.use_cassette('group-create') do
-          group = described_class.create(@client, name: 'Apple Group', external_reference: 'apples')
-          expect(group).to be_a Group
-          expect(group.nameservers).to be_a Array
-          expect(group.nameservers.size).to eq 2
-          expect(group.nameservers).to all be_a Nameserver
-        end
-      end
-
-      it 'raises a validation error if there is an issue' do
-        VCR.use_cassette('group-create-validation-error') do
-          expect do
-            described_class.create(@client, name: '')
-          end.to raise_error ValidationError do |e|
-            expect(e.errors).to match array_including(
-              having_attributes(attribute: 'name', type: 'blank')
+      context 'with nameservers passed by id' do
+        it 'returns the newly created group' do
+          VCR.use_cassette('group-create-nameservers') do
+            group = described_class.create(
+              @client,
+              name: 'Pear Group',
+              external_reference: 'pears',
+              nameservers: [{ id: 1 }]
             )
+
+            expect(group).to be_a Group
+            expect(group).to have_attributes name: 'Pear Group', external_reference: 'pears'
+            expect(group.nameservers).to be_a Array
+          end
+        end
+
+        it 'has required nameservers after creation' do
+          VCR.use_cassette('group-create-nameservers') do
+            group = described_class.create(
+              @client,
+              name: 'Pear Group',
+              external_reference: 'pears',
+              nameservers: [{ id: 1 }]
+            )
+
+            expect(group).to be_a Group
+            expect(group.nameservers).to be_a Array
+            expect(group.nameservers.size).to eq 1
+            expect(group.nameservers).to all be_a Nameserver
+          end
+        end
+
+        it 'raises a validation error if there is an issue' do
+          VCR.use_cassette('group-create-nameservers-validation-error') do
+            expect do
+              described_class.create(
+                @client,
+                name: 'Plum Group',
+                external_reference: 'plums',
+                nameservers: [{ id: 999 }]
+              )
+            end.to raise_error NameserverNotFoundError
+          end
+        end
+      end
+
+      context 'with nameservers passed by name' do
+        it 'returns the newly created group' do
+          VCR.use_cassette('group-create-nameservers-name') do
+            group = described_class.create(
+              @client,
+              name: 'Peach Group',
+              external_reference: 'peaches',
+              nameservers: [{ name: 'dave.example.com' }]
+            )
+
+            expect(group).to be_a Group
+            expect(group).to have_attributes name: 'Peach Group', external_reference: 'peaches'
+            expect(group.nameservers).to be_a Array
+          end
+        end
+
+        it 'has required nameservers after creation' do
+          VCR.use_cassette('group-create-nameservers-name') do
+            group = described_class.create(
+              @client,
+              name: 'Peach Group',
+              external_reference: 'peaches',
+              nameservers: [{ name: 'dave.example.com' }]
+            )
+
+            expect(group).to be_a Group
+            expect(group.nameservers).to be_a Array
+            expect(group.nameservers.size).to eq 1
+            expect(group.nameservers).to all be_a Nameserver
+            expect(group.nameservers.first.name).to eq 'dave.example.com'
+          end
+        end
+
+        it 'raises a validation error if there is an issue' do
+          VCR.use_cassette('group-create-nameservers-name-validation-error') do
+            expect do
+              described_class.create(
+                @client,
+                name: 'Fig Group',
+                external_reference: 'figs',
+                nameservers: [{ name: 'unknown' }]
+              )
+            end.to raise_error NameserverNotFoundError
           end
         end
       end

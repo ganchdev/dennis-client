@@ -2,6 +2,7 @@
 
 require 'dennis/nameserver'
 require 'dennis/validation_error'
+require 'dennis/nameserver_not_found_error'
 
 module Dennis
   class Group
@@ -25,11 +26,16 @@ module Dennis
         e.code == 'group_not_found' ? nil : raise
       end
 
-      def create(client, name:, external_reference: nil)
+      def create(client, name:, external_reference: nil, nameservers: nil)
         request = client.api.create_request(:post, 'groups')
-        request.arguments[:properties] = { name: name, external_reference: external_reference }
+        request.arguments[:properties] = {
+          name: name,
+          external_reference: external_reference,
+          nameservers: nameservers
+        }
         Group.new(client, request.perform.hash['group'])
       rescue ApiaClient::RequestError => e
+        raise NameserverNotFoundError, e.detail['errors'] if e.code == 'nameserver_not_found'
         raise ValidationError, e.detail['errors'] if e.code == 'validation_error'
 
         raise

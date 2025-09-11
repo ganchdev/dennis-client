@@ -1,0 +1,53 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://dennis.localhost/api/v1/groups
+      body:
+        encoding: UTF-8
+        string: '{"properties":{"name":"Plum Group","external_reference":"plums","nameservers":[{"id":999}]}}'
+      headers:
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+        Authorization:
+          - Bearer test
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 404
+        message: Not Found
+      headers:
+        Access-Control-Allow-Methods:
+          - "*"
+        Access-Control-Allow-Origin:
+          - "*"
+        Cache-Control:
+          - no-cache
+        Content-Length:
+          - "137"
+        Content-Type:
+          - application/json
+        Server:
+          - Caddy
+        Server-Timing:
+          - sql.active_record;dur=1.46, instantiation.active_record;dur=0.05
+        X-Api-Schema:
+          - json-error
+        X-Request-Id:
+          - 11949d31-8644-4365-bdbc-65a2814470d5
+        X-Runtime:
+          - "0.007889"
+        Date:
+          - Thu, 11 Sep 2025 10:52:24 GMT
+      body:
+        encoding: UTF-8
+        string:
+          '{"error":{"code":"nameserver_not_found","description":"No nameserver
+          could be found using the given arguments","detail":{"query":"999"}}}'
+    recorded_at: Thu, 11 Sep 2025 10:52:24 GMT
+recorded_with: VCR 6.1.0
